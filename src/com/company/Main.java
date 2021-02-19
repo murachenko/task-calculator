@@ -2,24 +2,6 @@ package com.company;
 
 import java.util.Scanner;
 
-//class RomanNum{
-//    private RomanNum(){}
-//    public static boolean isRoman(String s) {
-//        try {
-//            ;
-//        } catch (Exception e) {
-//            return false;
-//        }
-//        return true;
-//    }
-//    public static String toRoman(int n) {
-//        return "";
-//    }
-//    public static int toInt(String n) {
-//        return -1;
-//    }
-//}
-
 class RomanN {
 
     private final int num;   // число в виде Int
@@ -31,8 +13,8 @@ class RomanN {
     public RomanN(int arabic) { //Конструктор из Int Может быть в пределах 100
         if (arabic < 1)
             throw new NumberFormatException("Ошибка! Значение римских чисел не может быть нулем или отрицательным!");
-        if (arabic > 100)
-            throw new NumberFormatException("Ошибка! В данной программе работаем с результатом в пределах 100!");
+//        if (arabic > 100)
+//            throw new NumberFormatException("Ошибка! В данной программе работаем с результатом в пределах 100!");
         num = arabic;
     }
 
@@ -114,18 +96,20 @@ class Calculator{
         return res;
     }
 
-    public static boolean isNumber(String s) {// Здесь проверим на правильность ввода от 1 до 10 включительно
+    public static boolean isNumber(String s) {
         try {
             int i = Integer.parseInt(s);
-            if (i<0 || i>10){
-                throw new NumberFormatException("Ошибка ввода данных! Ожидается ввод чисел от 1 до 10 включительно!");
-            }
         } catch (NumberFormatException e) {
             return false;
         }
         return true;
     }
-
+    public static boolean inRange(int n) {// Здесь проверим на правильность ввода от 1 до 10 включительно
+        if (n < 0 || n > 10) {
+            return false;
+        }
+        else return true;
+    }
 }
 public class Main {
 
@@ -139,7 +123,7 @@ public class Main {
             String text;
             String one;
             String two;
-            Character operation;
+            char operation;
             while (!(text = in.nextLine()).equals("Q")) {
                 String[] blocks = text.split("[+-/*]");
                 if(blocks.length!=2){//не получилось разделить по знаку операции строку ввода - ошибка
@@ -148,8 +132,11 @@ public class Main {
                 one = blocks[0].trim();
                 operation = text.charAt(blocks[0].length());
                 two = blocks[1].trim();
-                if (Calculator.isNumber(one) && Calculator.isNumber(two)) {//Если оба Int, то вызываем калькулятор
-                    System.out.println(Calculator.calculate(Integer.parseInt(one), Integer.parseInt(two), operation));
+                if (Calculator.isNumber(one) && Calculator.isNumber(two)) {//Если оба Int, то проверяем вхождение в 1..10 и вызываем калькулятор
+                    if (Calculator.inRange(Integer.parseInt(one)) && Calculator.inRange(Integer.parseInt(two))) {
+                        System.out.println(Calculator.calculate(Integer.parseInt(one), Integer.parseInt(two), operation));
+                    }
+                    else throw new NumberFormatException("Ошибка ввода данных! Ожидается ввод чисел от 1 до 10 включительно!");
                 }
                 else {
                     try {
@@ -162,11 +149,8 @@ public class Main {
                         throw new Exception("Ошибка ввода данных! Не удалось преобразовать введенные символы в римские числа!");
                     }
                 }
-//                else if(RomanNum.isRoman(one) && RomanNum.isRoman(two)) {// Иначе проверяем на Римские числа
-//                    //Если Римские, то переводим в int и вызываем калькулятор, результат переводим в Римские
-//                    System.out.println(RomanNum.toRoman(Calculator.calculate(RomanNum.toInt(one), RomanNum.toInt(two), operation)));
-//                }
-//                else throw new Exception("Ошибка ввода данных!");//Иначе ошибка ввода данных
+                System.out.print("Для выхода напечатайте Q и нажмите Enter:\n ");
+                System.out.print("Введите арифметическую операцию в одной строке(например:2 + 3 или III*VI пробелы игнорируются) и нажмите Enter для вычисления:\n ");
             }
             System.out.print("Bay!");
         } catch (Exception ex) {
@@ -174,98 +158,3 @@ public class Main {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//        int plus, minus, mult, div, pos;
-//        try {
-//            Scanner in = new Scanner(System.in);
-//            System.out.print("Введите арифметическую операцию в одной строке(например:2+3) и нажмите Enter для вычисления: ");
-//            String calcString = in.nextLine();
-//            calcString = calcString.trim();// уберем крайние пробелы
-//            //Разберем строку на три части
-//            //Первое "число" без разбора, что в нем и уберем пробелы
-//            //Знак арифметической операции (+,-,*,/)
-//            //Второе "число" без разбора, что в нем и уберем пробелы
-//            plus = -1;
-//            minus = -1;
-//            mult = -1;
-//            div = -1;
-//            pos = -1;
-//            pos = plus = calcString.indexOf("+");
-//            if (plus < 0) {
-//                pos = minus = calcString.indexOf("-");
-//                if (minus < 0) {
-//                    pos = mult = calcString.indexOf("*");
-//                    if (mult < 0) {
-//                        pos = div = calcString.indexOf("/");
-//                        if (div < 0) {
-//                            //Исключение: Нет арифметического знака!
-//                            throw new Exception("Нет арифметического знака!");
-//                        }
-//                    }
-//                }
-//            }
-//            if (pos ==- 0) {
-//                //Исключение: Нет первого "числа" в выражении!
-//                throw new Exception("Нет первого \"числа\" в выражении!");
-//            }else if (pos == (calcString.length() - 1)) {
-//                //Исключение: Нет второго "числа" в выражении!
-//                throw new Exception("Нет второго \"числа\" в выражении!");
-//            }
-//            System.out.printf("Your string: %s \n", calcString);
-//            in.close();
-//    } catch(Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//
-
-//    }
-
-//    public static void main(String[] args) {
-//        int value1 = 0;
-//        int value2 = 0;
-//        String operation = null;
-//
-//        System.out.println("Введите 2  целых числа: ");
-//        Scanner scanner = new Scanner(System.in);
-//        if (value1 > 0 || value1 < 10) {
-//            value1 = scanner.nextInt();
-//            operation = scanner.next();
-//            value2 = scanner.nextInt();
-//        }
-//        if (operation.equals("+")) {
-//            System.out.println(value1 + value2);
-//        }
-//        if (operation.equals("-")) {
-//            System.out.println(value1 - value2);
-//        }
-//        if (operation.equals("*")) {
-//            System.out.println(value1 * value2);
-//        }
-//        if (operation.equals("/")) {
-//            System.out.println(value1 / value2);
-//        } else {
-//            System.out.println("error!");
-//        }
-//    }
-//}
